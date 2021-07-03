@@ -29,17 +29,7 @@ export default function App() {
 
 const sectionStyle = {
   alignItems: "center",
-  ...Platform.select({
-    ios: {
-      backgroundColor: PlatformColor("systemTealColor"),
-    },
-    android: {
-      backgroundColor: PlatformColor("@android:color/holo_blue_bright"),
-    },
-    default: {
-      backgroundColor: "#222",
-    },
-  }),
+  backgroundColor: "#222",
   paddingVertical: 20,
 };
 
