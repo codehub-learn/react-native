@@ -5,20 +5,42 @@ import {
   StyleSheet,
   Text,
   FlatList,
+  TouchableHighlight,
   View,
 } from "react-native";
 import faker from "faker";
 
 const USERS = ["Lionel Messi", "Christiano Ronaldo"];
 
-const Item = ({ item }) => (
-  <View style={styles.listItem}>
-    <Text>{item}</Text>
-  </View>
-);
+const Item = ({ item, selected, onSelect }) => {
+  const styles = StyleSheet.create({
+    listItem: {
+      backgroundColor: selected ? "yellow" : "white",
+      borderBottomWidth: 1,
+      borderColor: "#222",
+      color: "#222",
+      display: "flex",
+      padding: 20,
+      width: "100%",
+    },
+  });
+
+  return (
+    <TouchableHighlight key={item.key} onPress={() => onSelect(item)}>
+      <View
+        style={StyleSheet.compose(styles.listItem, {
+          backgroundColor: selected ? "yellow" : "white",
+        })}
+      >
+        <Text>{item}</Text>
+      </View>
+    </TouchableHighlight>
+  );
+};
 
 export default function App() {
   const [users, setUsers] = React.useState(USERS);
+  const [selected, setSelected] = React.useState(null);
 
   const handlePress = () =>
     setUsers((users) => [faker.name.findName(), ...users]);
@@ -31,7 +53,9 @@ export default function App() {
       <View style={styles.main}>
         <FlatList
           data={users}
-          renderItem={Item}
+          renderItem={({ item, index, separators }) => (
+            <Item item={item} selected={selected} onSelect={setSelected} />
+          )}
           keyExtractor={(item) => item}
         />
         <Button title="Click me" onPress={handlePress} />
@@ -62,13 +86,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     justifyContent: "center",
-    width: "100%",
-  },
-  listItem: {
-    borderBottomWidth: 1,
-    borderColor: "#222",
-    display: "flex",
-    padding: 20,
     width: "100%",
   },
   input: {
