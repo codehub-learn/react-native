@@ -1,20 +1,42 @@
 import React from "react";
 import {
+  Alert,
+  Button,
   SafeAreaView,
   StyleSheet,
   Platform,
   PlatformColor,
   Text,
+  TextInput,
   View,
 } from "react-native";
 
 export default function App() {
+  const [value, setValue] = React.useState("");
+
+  const handlePress = () =>
+    Alert.alert(value, null, [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      { text: "OK", onPress: () => console.log("OK Pressed") },
+    ]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Header</Text>
       </View>
       <View style={styles.main}>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter sth..."
+          onChangeText={setValue}
+          value={value}
+        />
+        <Button title="Click me" onPress={handlePress} />
         {/* Add a TextInput and a Button component in the center of main area */}
         {/* The TextInput should be a controlled input */}
         {/* First write whatever you like in the input element */}
@@ -57,6 +79,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#222",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    width: 300,
   },
   header: sectionStyle,
   headerText: textStyle,
