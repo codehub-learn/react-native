@@ -1,5 +1,12 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  Platform,
+  PlatformColor,
+  Text,
+  View,
+} from "react-native";
 
 export default function App() {
   return (
@@ -17,7 +24,17 @@ export default function App() {
   );
 }
 
-// Refactor duplicate styling
+// Use a random platform color for iOS and android and set "#222" as the default background color
+const sectionStyle = {
+  alignItems: "center",
+  backgroundColor: "#222",
+  paddingVertical: 20,
+};
+
+const textStyle = {
+  color: "#fff",
+};
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#222",
@@ -29,20 +46,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  header: {
-    alignItems: "center",
-    backgroundColor: "#222",
-    paddingVertical: 20,
-  },
-  headerText: {
-    color: "#fff",
-  },
-  footer: {
-    alignItems: "center",
-    backgroundColor: "#222",
-    paddingVertical: 20,
-  },
-  footerText: {
-    color: "#fff",
-  },
+  header: sectionStyle,
+  headerText: textStyle,
+  footer: sectionStyle,
+  footerText: textStyle,
 });
