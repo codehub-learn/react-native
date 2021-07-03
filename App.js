@@ -4,8 +4,6 @@ import {
   Button,
   SafeAreaView,
   StyleSheet,
-  Platform,
-  PlatformColor,
   Text,
   TextInput,
   View,
@@ -52,17 +50,7 @@ export default function App() {
 
 const sectionStyle = {
   alignItems: "center",
-  ...Platform.select({
-    ios: {
-      backgroundColor: PlatformColor("systemTealColor"),
-    },
-    android: {
-      backgroundColor: PlatformColor("@android:color/holo_blue_bright"),
-    },
-    default: {
-      backgroundColor: "#222",
-    },
-  }),
+  backgroundColor: "#222",
   paddingVertical: 20,
 };
 
@@ -84,6 +72,7 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: "#222",
+    marginBottom: 10,
     paddingVertical: 5,
     paddingHorizontal: 10,
     width: 300,
