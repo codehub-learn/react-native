@@ -36,6 +36,8 @@ export default function App() {
           renderItem={Item}
           keyExtractor={(item) => item}
         />
+        {/* Make each item clickable */}
+        {/* Highlight the selected item with yellow background color */}
         <Button title="Click me" onPress={handlePress} />
       </View>
       <View style={styles.footer}>
