@@ -1,30 +1,29 @@
 import React from "react";
 import {
-  Alert,
   Button,
   SafeAreaView,
   StyleSheet,
   Platform,
   PlatformColor,
   Text,
-  TextInput,
+  FlatList,
   View,
 } from "react-native";
+import faker from "faker";
 
 const USERS = ["Lionel Messi", "Christiano Ronaldo"];
 
+const Item = ({ item }) => (
+  <View style={styles.listItem}>
+    <Text>{item}</Text>
+  </View>
+);
+
 export default function App() {
-  const [value, setValue] = React.useState("");
+  const [users, setUsers] = React.useState(USERS);
 
   const handlePress = () =>
-    Alert.alert(value, null, [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel",
-      },
-      { text: "OK", onPress: () => console.log("OK Pressed") },
-    ]);
+    setUsers((users) => [faker.name.findName(), ...users]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -32,16 +31,12 @@ export default function App() {
         <Text style={styles.headerText}>Header</Text>
       </View>
       <View style={styles.main}>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter sth..."
-          onChangeText={setValue}
-          value={value}
+        <FlatList
+          data={users}
+          renderItem={Item}
+          keyExtractor={(item) => item}
         />
         <Button title="Click me" onPress={handlePress} />
-        {/* Replace the content of the main area with a list of users using FlatList */}
-        {/* Add a Button after the list */}
-        {/* When pressing the button, we should add another user at the top of the list */}
       </View>
       <View style={styles.footer}>
         <Text style={styles.footerText}>Footer</Text>
@@ -78,8 +73,15 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
     justifyContent: "center",
+    width: "100%",
+  },
+  listItem: {
+    borderBottomWidth: 1,
+    borderColor: "#222",
+    display: "flex",
+    padding: 20,
+    width: "100%",
   },
   input: {
     borderWidth: 1,
