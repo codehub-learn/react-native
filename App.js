@@ -11,6 +11,8 @@ import {
   View,
 } from "react-native";
 
+const USERS = ["Lionel Messi", "Christiano Ronaldo"];
+
 export default function App() {
   const [value, setValue] = React.useState("");
 
@@ -37,10 +39,9 @@ export default function App() {
           value={value}
         />
         <Button title="Click me" onPress={handlePress} />
-        {/* Add a TextInput and a Button component in the center of main area */}
-        {/* The TextInput should be a controlled input */}
-        {/* First write whatever you like in the input element */}
-        {/* When clicking the button, trigger the Alert component by showing the input value */}
+        {/* Replace the content of the main area with a list of users using FlatList */}
+        {/* Add a Button after the list */}
+        {/* When pressing the button, we should add another user at the top of the list */}
       </View>
       <View style={styles.footer}>
         <Text style={styles.footerText}>Footer</Text>
