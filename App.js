@@ -39,6 +39,7 @@ const Item = ({ item, selected, onSelect }) => {
 };
 
 export default function App() {
+  // Fetch users from the remote API url => https://reqres.in/api/users
   const [users, setUsers] = React.useState(USERS);
   const [selected, setSelected] = React.useState(null);
 
@@ -53,7 +54,7 @@ export default function App() {
       <View style={styles.main}>
         <FlatList
           data={users}
-          renderItem={({ item, index, separators }) => (
+          renderItem={({ item }) => (
             <Item
               item={item}
               selected={selected === item}
