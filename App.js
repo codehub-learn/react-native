@@ -12,10 +12,10 @@ import faker from "faker";
 
 const USERS = ["Lionel Messi", "Christiano Ronaldo"];
 
-const Item = ({ item, selected, onSelect }) => {
+const Item = ({ item, isSelected, onSelect }) => {
   const styles = StyleSheet.create({
     listItem: {
-      backgroundColor: selected ? "yellow" : "white",
+      backgroundColor: isSelected ? "yellow" : "white",
       borderBottomWidth: 1,
       borderColor: "#222",
       color: "#222",
@@ -27,11 +27,7 @@ const Item = ({ item, selected, onSelect }) => {
 
   return (
     <TouchableHighlight key={item.key} onPress={() => onSelect(item)}>
-      <View
-        style={StyleSheet.compose(styles.listItem, {
-          backgroundColor: selected ? "yellow" : "white",
-        })}
-      >
+      <View style={styles.listItem}>
         <Text>{item}</Text>
       </View>
     </TouchableHighlight>
@@ -57,7 +53,7 @@ export default function App() {
           renderItem={({ item }) => (
             <Item
               item={item}
-              selected={selected === item}
+              isSelected={selected === item}
               onSelect={setSelected}
             />
           )}
