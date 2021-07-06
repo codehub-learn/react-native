@@ -54,9 +54,14 @@ export default function App() {
         <FlatList
           data={users}
           renderItem={({ item, index, separators }) => (
-            <Item item={item} selected={selected} onSelect={setSelected} />
+            <Item
+              item={item}
+              selected={selected === item}
+              onSelect={setSelected}
+            />
           )}
           keyExtractor={(item) => item}
+          extraData={selected}
         />
         <Button title="Click me" onPress={handlePress} />
       </View>
