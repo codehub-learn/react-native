@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  ActivityIndicator,
   Button,
   SafeAreaView,
   StyleSheet,
@@ -10,12 +11,10 @@ import {
 } from "react-native";
 import faker from "faker";
 
-const USERS = ["Lionel Messi", "Christiano Ronaldo"];
-
-const Item = ({ item, selected, onSelect }) => {
+const Item = ({ item, isSelected, onSelect }) => {
   const styles = StyleSheet.create({
     listItem: {
-      backgroundColor: selected ? "yellow" : "white",
+      backgroundColor: isSelected ? "yellow" : "white",
       borderBottomWidth: 1,
       borderColor: "#222",
       color: "#222",
@@ -26,24 +25,37 @@ const Item = ({ item, selected, onSelect }) => {
   });
 
   return (
-    <TouchableHighlight key={item.key} onPress={() => onSelect(item)}>
-      <View
-        style={StyleSheet.compose(styles.listItem, {
-          backgroundColor: selected ? "yellow" : "white",
-        })}
-      >
-        <Text>{item}</Text>
+    <TouchableHighlight key={item.key} onPress={() => onSelect(item.id)}>
+      <View style={styles.listItem}>
+        <Text>
+          {item.first_name} {item.last_name}
+        </Text>
       </View>
     </TouchableHighlight>
   );
 };
 
 export default function App() {
-  const [users, setUsers] = React.useState(USERS);
+  // Fetch users from the remote API url => https://reqres.in/api/users
+  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [users, setUsers] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
 
   const handlePress = () =>
     setUsers((users) => [faker.name.findName(), ...users]);
+
+  React.useEffect(() => {
+    const getUsers = () => {
+      fetch("https://reqres.in/api/users")
+        .then((res) => res.json())
+        .then((res) => {
+          setUsers(res.data);
+        })
+        .finally(() => setIsLoaded(true));
+    };
+
+    getUsers();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -51,19 +63,25 @@ export default function App() {
         <Text style={styles.headerText}>Header</Text>
       </View>
       <View style={styles.main}>
-        <FlatList
-          data={users}
-          renderItem={({ item, index, separators }) => (
-            <Item
-              item={item}
-              selected={selected === item}
-              onSelect={setSelected}
+        {isLoaded ? (
+          <>
+            <FlatList
+              data={users}
+              renderItem={({ item }) => (
+                <Item
+                  item={item}
+                  isSelected={selected === item.id}
+                  onSelect={setSelected}
+                />
+              )}
+              keyExtractor={(item) => item.id}
+              extraData={selected}
             />
-          )}
-          keyExtractor={(item) => item}
-          extraData={selected}
-        />
-        <Button title="Click me" onPress={handlePress} />
+            <Button title="Click me" onPress={handlePress} />
+          </>
+        ) : (
+          <ActivityIndicator />
+        )}
       </View>
       <View style={styles.footer}>
         <Text style={styles.footerText}>Footer</Text>
